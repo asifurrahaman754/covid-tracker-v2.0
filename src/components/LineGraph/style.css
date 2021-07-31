@@ -1,0 +1,13 @@
+.graph_wrap {
+  margin-top: 2.5rem;
+  overflow-x: scroll;
+}
+
+.graph_wrap::-webkit-scrollbar {
+  width: 12px;
+}
+
+.graph {
+  height: 200px !important;
+  min-width: 500px;
+}

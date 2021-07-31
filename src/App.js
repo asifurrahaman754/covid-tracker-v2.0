@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { Card, CardContent } from "@material-ui/core";
+import CardCase from "./components/CardCase";
+import CountryInfoContextProvider from "./components/context/CountryInfoContext";
+import Header from "./components/Header";
+import Map from "./components/Map";
+import Table from "./components/Table";
+import LineGraph from "./components/LineGraph";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CountryInfoContextProvider>
+        <div className="app__left_content">
+          <Header />
+
+          <div className="app__stats">
+            <CardCase title="New Case" topic="new" color="#FFA900" />
+            <CardCase title="Death" topic="death" color="#dd0b0b" />
+            <CardCase title="Recovery" topic="recover" color="#03ac35" />
+          </div>
+
+          <Map />
+        </div>
+        <Card className="app__right_content">
+          <CardContent>
+            <Table />
+            <LineGraph />
+          </CardContent>
+        </Card>
+      </CountryInfoContextProvider>
     </div>
   );
 }

@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.header__select {
+  background-color: white;
+  max-width: 150px;
+}

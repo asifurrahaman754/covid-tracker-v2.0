@@ -1,0 +1,30 @@
+.table_title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.table {
+  height: 400px;
+  display: block;
+  overflow-y: scroll;
+  color: #6a5d5d;
+}
+
+.table tbody {
+  display: block;
+}
+
+.table tr {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table tr:nth-of-type(odd) {
+  background-color: #f3f2f8;
+}
+
+.table tr td {
+  padding: 10px;
+}
