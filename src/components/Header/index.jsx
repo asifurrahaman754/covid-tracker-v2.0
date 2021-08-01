@@ -5,7 +5,7 @@ import "./style.css";
 import { CountryInfoContext } from "../context/CountryInfoContext";
 import { sortData } from "../../utilFunctions";
 
-export default function Header() {
+export default function Header({ setMapCenter, setMapZoom, setMapCountries }) {
   const [countries, setcountries] = useState([]);
   const [country, setcountry] = useState("worldwide");
   const [
@@ -47,8 +47,12 @@ export default function Header() {
         const sortedData = sortData(data);
 
         setLoading(false);
+        //for show all the affected countries in the select option
         setcountries(countryData);
+        //for the sorted table
         setallCountries(sortedData);
+        //for the map data
+        setMapCountries(data);
       })
       .catch(err => alert(err));
   }, []);
@@ -72,6 +76,15 @@ export default function Header() {
       .then(data => {
         setLoading(false);
         setcountryInfo(data);
+
+        //change the map when change the country
+        if (countryCode !== "worldwide") {
+          setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+          setMapZoom(7);
+        } else {
+          setMapCenter([34.80746, -40.4796]);
+          setMapZoom(3);
+        }
       })
       .catch(err => {
         setLoading(false);
