@@ -5,12 +5,15 @@ import {
   useMap,
   Circle,
 } from "react-leaflet";
+import { useSelector } from "react-redux";
+
 import "./style.css";
+import numeral from "numeral";
 
 //colors for different cases in the map
 const casesTypeColors = {
   cases: {
-    hex: "#CC1034",
+    hex: "#f08a17",
     multiplier: 800,
   },
   recovered: {
@@ -23,40 +26,64 @@ const casesTypeColors = {
   },
 };
 
-export default function Map({ countries, casesType = "deaths", coords, zoom }) {
+export default function Map() {
+  console.log("Map component");
+  const { caseType, mapCountries, mapCenter, mapZoom } = useSelector(
+    state => state.country
+  );
+
   return (
     <div className="map">
-      <LeafletMap center={coords} zoom={zoom} scrollWheelZoom={false}>
+      <LeafletMap center={mapCenter} zoom={mapZoom} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {countries.map((country, i) => (
+        {mapCountries.map((country, i) => (
           <Circle
             key={i}
             center={[country.countryInfo.lat, country.countryInfo.long]}
-            color={casesTypeColors[casesType].hex}
-            fillColor={casesTypeColors[casesType].hex}
+            pathOptions={{
+              color: casesTypeColors[caseType].hex,
+              fillColor: casesTypeColors[caseType].hex,
+            }}
             fillOpacity={0.4}
             radius={
-              Math.sqrt(country[casesType]) *
-              casesTypeColors[casesType].multiplier
+              Math.sqrt(country[caseType]) *
+              casesTypeColors[caseType].multiplier
             }
           >
             <Popup>
-              <h1>this is awesome</h1>
+              <div className="info-container">
+                <div
+                  className="info-flag"
+                  style={{
+                    backgroundImage: `url(${country.countryInfo.flag})`,
+                  }}
+                ></div>
+                <h4 className="info-name">{country.country}</h4>
+                <div className="info-confirmed">
+                  Cases: {numeral(country.cases).format("0,0")}
+                </div>
+                <div className="info-recovered">
+                  Recovered: {numeral(country.recovered).format("0,0")}
+                </div>
+                <div className="info-deaths">
+                  Deaths: {numeral(country.deaths).format("0,0")}
+                </div>
+              </div>
             </Popup>
           </Circle>
         ))}
 
-        <ChangeMapView coords={coords} />
+        <ChangeMapView coords={mapCenter} />
       </LeafletMap>
     </div>
   );
 }
 
-//to change the map according to the coordinates
+// change the map according to the coordinates
 function ChangeMapView({ coords }) {
   const map = useMap();
   map.setView(coords, map.getZoom());

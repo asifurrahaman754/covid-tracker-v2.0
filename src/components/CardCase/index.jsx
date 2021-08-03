@@ -1,14 +1,26 @@
-import { useContext } from "react";
-
-import { CountryInfoContext } from "../context/CountryInfoContext";
+import { useSelector, useDispatch } from "react-redux";
 import { Card, CardContent, Typography } from "@material-ui/core";
 
-export default function CardCase({ title, topic, color }) {
-  const [countryInfo, setcountryInfo, loading, setLoading] =
-    useContext(CountryInfoContext);
+import { formatCaseCard } from "../../utilFunctions";
+import { setcaseType } from "../redux/CountrySlice";
+
+export default function CardCase({ title, topic, color, onClick }) {
+  console.log("CardCase component");
+  const dispatch = useDispatch();
+  const { loading, countryInfo, caseType } = useSelector(
+    state => state.country
+  );
 
   return (
-    <Card style={{ border: `1px solid ${color}` }}>
+    <Card
+      onClick={() => dispatch(setcaseType(topic))}
+      style={{
+        border: `1px solid ${color}`,
+        cursor: "pointer",
+        borderTop:
+          caseType === topic ? `10px solid ${color}` : `1px solid ${color}`,
+      }}
+    >
       <CardContent style={{ padding: "10px 30px 24px 30px" }}>
         {loading ? (
           <h3>Loading...</h3>
@@ -17,15 +29,22 @@ export default function CardCase({ title, topic, color }) {
             <Typography color="textSecondary" gutterBottom>
               {title}
             </Typography>
+
             <h2 style={{ color: `${color}` }}>
-              {(topic === "new" && countryInfo.todayCases) ||
-                (topic === "death" && countryInfo.todayDeaths) ||
-                (topic === "recover" && countryInfo.todayRecovered)}
+              {formatCaseCard(
+                (topic === "cases" && countryInfo.todayCases) ||
+                  (topic === "deaths" && countryInfo.todayDeaths) ||
+                  (topic === "recovered" && countryInfo.todayRecovered),
+                "new"
+              )}
             </h2>
             <Typography color="textSecondary">
-              {(topic === "new" && countryInfo.cases) ||
-                (topic === "death" && countryInfo.deaths) ||
-                (topic === "recover" && countryInfo.recovered)}
+              total:&nbsp;
+              {formatCaseCard(
+                (topic === "cases" && countryInfo.cases) ||
+                  (topic === "deaths" && countryInfo.deaths) ||
+                  (topic === "recovered" && countryInfo.recovered)
+              )}
             </Typography>
           </>
         )}

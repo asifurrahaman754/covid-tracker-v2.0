@@ -17,7 +17,16 @@ body {
 
 /* scrollbar style for other browser */
 :not(body)::-webkit-scrollbar {
-  width: 12px;
+  width: 5px;
+  height: 5px;
+}
+
+:not(body)::-webkit-scrollbar-thumb {
+  background-color: #aaaaaa;
+}
+
+:not(body)::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
 }
 
 code {
@@ -33,7 +42,7 @@ code {
 
 /*extra styles */
 .App {
-  padding: 20px;
+  padding: 0px 20px 20px 20px;
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-gap: 1rem;
@@ -47,6 +56,10 @@ code {
 .app__left_content,
 .app__right_content {
   width: 100%;
+}
+
+.app__right_content {
+  height: max-content;
 }
 
 .app__stats {

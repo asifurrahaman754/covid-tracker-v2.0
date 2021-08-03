@@ -1,41 +1,44 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 
-import { FormControl, Select, MenuItem } from "@material-ui/core";
+import { FormControl, Select } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+
 import "./style.css";
-import { CountryInfoContext } from "../context/CountryInfoContext";
 import { sortData } from "../../utilFunctions";
+import {
+  setcountryInfo,
+  setallCountries,
+  setLoading,
+  setMapCenter,
+  setMapZoom,
+  setMapCountries,
+} from "../redux/CountrySlice";
 
-export default function Header({ setMapCenter, setMapZoom, setMapCountries }) {
+export default function Header() {
+  console.log("Header component");
   const [countries, setcountries] = useState([]);
   const [country, setcountry] = useState("worldwide");
-  const [
-    countryInfo,
-    setcountryInfo,
-    loading,
-    setLoading,
-    allCountries,
-    setallCountries,
-  ] = useContext(CountryInfoContext);
+  const dispatch = useDispatch();
 
   //getting the initial info for all countries
   useEffect(() => {
-    setLoading(true);
+    dispatch(setLoading(true));
 
     fetch("https://disease.sh/v3/covid-19/all")
       .then(res => res.json())
       .then(data => {
-        setLoading(false);
-        setcountryInfo(data);
+        dispatch(setLoading(false));
+        dispatch(setcountryInfo(data));
       })
       .catch(err => {
-        setLoading(false);
+        dispatch(setLoading(false));
         alert(err);
       });
   }, []);
 
   //getting all the covid 19 effected countries
   useEffect(() => {
-    setLoading(true);
+    dispatch(setLoading(true));
 
     fetch("https://disease.sh/v3/covid-19/countries")
       .then(res => res.json())
@@ -46,13 +49,13 @@ export default function Header({ setMapCenter, setMapZoom, setMapCountries }) {
         }));
         const sortedData = sortData(data);
 
-        setLoading(false);
+        dispatch(setLoading(false));
         //for show all the affected countries in the select option
         setcountries(countryData);
         //for the sorted table
-        setallCountries(sortedData);
+        dispatch(setallCountries(sortedData));
         //for the map data
-        setMapCountries(data);
+        dispatch(setMapCountries(data));
       })
       .catch(err => alert(err));
   }, []);
@@ -63,7 +66,7 @@ export default function Header({ setMapCenter, setMapZoom, setMapCountries }) {
     //change the input value
     setcountry(countryCode);
     //show the loading indicator
-    setLoading(true);
+    dispatch(setLoading(true));
 
     const url =
       countryCode === "worldwide"
@@ -74,27 +77,27 @@ export default function Header({ setMapCenter, setMapZoom, setMapCountries }) {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        setLoading(false);
-        setcountryInfo(data);
+        dispatch(setLoading(false));
+        dispatch(setcountryInfo(data));
 
         //change the map when change the country
         if (countryCode !== "worldwide") {
-          setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-          setMapZoom(7);
+          dispatch(setMapCenter([data.countryInfo.lat, data.countryInfo.long]));
+          dispatch(setMapZoom(7));
         } else {
           setMapCenter([34.80746, -40.4796]);
-          setMapZoom(3);
+          dispatch(setMapZoom(3));
         }
       })
       .catch(err => {
-        setLoading(false);
+        dispatch(setLoading(false));
         alert(err);
       });
   };
 
   return (
     <div className="header">
-      <h1>COVID TRACKER</h1>
+      <img src="/logo.png" alt="covid-19 logo" className="logo" />
 
       <FormControl variant="outlined">
         <Select

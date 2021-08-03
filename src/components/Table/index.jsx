@@ -1,17 +1,12 @@
-import { useContext } from "react";
+import React from "react";
 
-import { CountryInfoContext } from "../context/CountryInfoContext";
+import numeral from "numeral";
+import { useSelector } from "react-redux";
 import "./style.css";
 
-export default function Table() {
-  const [
-    countryInfo,
-    setcountryInfo,
-    loading,
-    setLoading,
-    allCountries,
-    setallCountries,
-  ] = useContext(CountryInfoContext);
+function Table() {
+  console.log("Table component");
+  const { loading, allCountries } = useSelector(state => state.country);
 
   return (
     <>
@@ -27,7 +22,7 @@ export default function Table() {
               <tr key={i}>
                 <td>{country}</td>
                 <td>
-                  <strong>{cases}</strong>
+                  <strong>{numeral(cases).format("0,0")}</strong>
                 </td>
               </tr>
             ))
@@ -37,3 +32,5 @@ export default function Table() {
     </>
   );
 }
+
+export default React.memo(Table);
