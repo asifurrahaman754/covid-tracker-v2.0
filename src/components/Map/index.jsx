@@ -27,10 +27,11 @@ const casesTypeColors = {
 };
 
 export default function Map() {
-  console.log("Map component");
-  const { caseType, mapCountries, mapCenter, mapZoom } = useSelector(
-    state => state.country
-  );
+  // i could distructure these values but i didn't do it because it creates rerendering problem
+  const caseType = useSelector(state => state.country.caseType);
+  const mapCountries = useSelector(state => state.country.mapCountries);
+  const mapCenter = useSelector(state => state.country.mapCenter);
+  const mapZoom = useSelector(state => state.country.mapZoom);
 
   return (
     <div className="map">

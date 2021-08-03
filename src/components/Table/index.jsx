@@ -5,18 +5,15 @@ import { useSelector } from "react-redux";
 import "./style.css";
 
 function Table() {
-  console.log("Table component");
-  const { loading, allCountries } = useSelector(state => state.country);
+  const allCountries = useSelector(state => state.country.allCountries);
 
   return (
     <>
       <h3 className="table_title">Live cases by country</h3>
       <table className="table">
         <tbody>
-          {loading ? (
-            <tr>
-              <td>Loading...</td>
-            </tr>
+          {!allCountries.length ? (
+            <h3>Loading...</h3>
           ) : (
             allCountries.map(({ country, cases }, i) => (
               <tr key={i}>

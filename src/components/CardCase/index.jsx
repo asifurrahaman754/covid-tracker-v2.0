@@ -4,12 +4,11 @@ import { Card, CardContent, Typography } from "@material-ui/core";
 import { formatCaseCard } from "../../utilFunctions";
 import { setcaseType } from "../redux/CountrySlice";
 
-export default function CardCase({ title, topic, color, onClick }) {
-  console.log("CardCase component");
+export default function CardCase({ title, topic, color }) {
   const dispatch = useDispatch();
-  const { loading, countryInfo, caseType } = useSelector(
-    state => state.country
-  );
+  const caseType = useSelector(state => state.country.caseType);
+  const countryInfo = useSelector(state => state.country.countryInfo);
+  const loading = useSelector(state => state.country.loading);
 
   return (
     <Card

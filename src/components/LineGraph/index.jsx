@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
@@ -13,13 +14,12 @@ const options = {
       radius: 0,
     },
   },
-  interaction: {
-    mode: "index",
-    intersect: true,
-  },
   plugins: {
     legend: {
       display: false,
+    },
+    tooltip: {
+      intersect: false,
     },
   },
   maintainAspectRatio: false,
@@ -47,8 +47,7 @@ const options = {
   },
 };
 
-export default function LineGraph() {
-  console.log("LineGaph component");
+function LineGraph() {
   const caseType = useSelector(state => state.country.caseType);
   const [data, setdata] = useState([]);
 
@@ -82,28 +81,31 @@ export default function LineGraph() {
         const ChartData = buildChartData(data, caseType);
         setdata(ChartData);
       })
-      .catch(err => alert(err));
+      .catch(err => {
+        alert(err);
+      });
   }, [caseType]);
 
   return (
     <div className="graph_wrap">
       <h3>Worldwide COVID {caseType} data</h3>
-      {data.length && (
-        <Line
-          className="graph"
-          data={{
-            datasets: [
-              {
-                backgroundColor: "rgba(204, 16, 52, 0.5)",
-                borderColor: "#CC1034",
-                data: data,
-                fill: true,
-              },
-            ],
-          }}
-          options={options}
-        />
-      )}
+
+      <Line
+        className="graph"
+        data={{
+          datasets: [
+            {
+              backgroundColor: "rgba(204, 16, 52, 0.5)",
+              borderColor: "#CC1034",
+              data: data,
+              fill: true,
+            },
+          ],
+        }}
+        options={options}
+      />
     </div>
   );
 }
+
+export default React.memo(LineGraph);
