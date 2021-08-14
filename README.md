@@ -1,4 +1,7 @@
 # Project live here - [live](https://covid-tracker754.netlify.app/)
+
+[![Capture.png](https://i.postimg.cc/wTGMTs5F/Capture.png)](https://postimg.cc/qz241q5C)
+
 # Main Technology used 
   * HTML
   * CSS
