@@ -17,4 +17,3 @@
   * [Chart-js](https://www.chartjs.org/)
   * [leaflet](https://leafletjs.com/)
   * [numeral](http://numeraljs.com/)
-  * [slick-carousel](https://kenwheeler.github.io/slick/)
