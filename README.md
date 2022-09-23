@@ -1,4 +1,4 @@
-# Project [live](https://covid-tracker754.netlify.app/) 🚀
+# Covid Tracker 🚀
 
 [![Capture.png](https://i.postimg.cc/wTGMTs5F/Capture.png)](https://postimg.cc/qz241q5C)
 
